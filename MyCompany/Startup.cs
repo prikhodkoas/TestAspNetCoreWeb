@@ -27,18 +27,18 @@ namespace MyCompany
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            //Подключаем конфиг из appsetting.json
+            //подключаем конфиг из appsetting.json
             Configuration.Bind("Project", new Config());
 
-            //Подключаем DI сервисы
+            //подключаем нужный функционал приложения в качестве сервисов
             services.AddTransient<ITextFieldsRepository, EFTextFieldsRepository>();
             services.AddTransient<IServiceItemsRepository, EFServiceItemsRepository>();
             services.AddTransient<DataManager>();
 
-            //Подключаем контекст БД
+            //подключаем контекст БД
             services.AddDbContext<AppDbContext>(x => x.UseSqlServer(Config.ConnectionString));
 
-            //Настраиваем identity систему
+            //настраиваем identity систему
             services.AddIdentity<IdentityUser, IdentityRole>(opts =>
             {
                 opts.User.RequireUniqueEmail = true;
@@ -47,7 +47,7 @@ namespace MyCompany
                 opts.Password.RequireLowercase = false;
                 opts.Password.RequireUppercase = false;
                 opts.Password.RequireDigit = false;
-            });
+            }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 
             //Настраиваем authentication cookies
             services.ConfigureApplicationCookie(options =>
