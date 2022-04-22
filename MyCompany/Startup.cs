@@ -59,7 +59,13 @@ namespace MyCompany
                 options.SlidingExpiration = true;
             });
 
-            services.AddControllersWithViews()
+            //настраиваем политику авторизации для AdminArea
+            services.AddAuthorization(x =>
+                x.AddPolicy("AdminArea", policy => { policy.RequireRole("admin"); }));
+
+
+            services.AddControllersWithViews(x => 
+                    x.Conventions.Add(new AdminAreaAuthorization("Admin", "AdminArea")))
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0).AddSessionStateTempDataProvider();
         }
 
@@ -81,6 +87,7 @@ namespace MyCompany
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute("admin", "{area:exists}/{controller=Home}/{action=Index}/{Id?}");
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{Id?}");
             });
         }

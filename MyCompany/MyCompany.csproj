@@ -10,11 +10,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Admin\Controllers\" />
     <Folder Include="Domain\Entities\" />
     <Folder Include="Domain\Repositories\Abstract\" />
     <Folder Include="Domain\Repositories\EntityFramework\" />
     <Folder Include="Models\ViewComponents\" />
+    <Folder Include="Pages\LoginViewModel\DisplayTemplates\" />
     <Folder Include="Services\" />
     <Folder Include="wwwroot\css\" />
     <Folder Include="wwwroot\images\" />
